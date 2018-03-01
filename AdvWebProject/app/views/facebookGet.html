@@ -1,0 +1,6 @@
+<button ng-click="getPosts(); showme=true">get posts</button>
+<div ng-show="showme"> 
+<ul ng-repeat="post in facebookPosts.data">
+  <li>{{post.message}}</li>
+</ul>
+</div>
