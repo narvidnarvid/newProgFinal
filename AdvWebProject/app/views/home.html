@@ -6,72 +6,22 @@
 
 
 
-<table class="table-home-option">
+<table>
     <tr>
         <td>
-            <a href='#!/graph'>
-                <dd class="div-option-dd">
-                    <div class="div-option-text">
-                        <br>
-                        <p>Your statistics</p>
-                    </div>
-                </dd>
-            </a>
-        </td>
-        <td>
-            <a href='#!/transactions'>
-                <dd class="div-option-dd">
-                    <div class="div-option-text">
-                        <br>
-                        <p>View your Transactions </p>
-                    </div>
-                </dd>
-            </a>
-        </td>
-        <td>
-            <a href=#!/home>
-                <dd class="div-option-dd">
-                    <div class="div-option-text">
-                        <br>
-                        <p>Upload pdf</p>
-                    </div>
-                </dd>
-            </a>
-        </td>
-
-    </tr>
-    <tr>
-        <td>
-            <a href=#!/home>
-                <dd class="div-option-dd">
-                    <div class="div-option-text">
-                        <br>
-                        <p>Something</p>
-                    </div>
-                </dd>
-            </a>
-        </td>
-        <td>
-            <a href=#!/home>
-                <dd class="div-option-dd">
-                    <div class="div-option-text">
-                        <br>
-                        <p>Something</p>
-                    </div>
-                </dd>
-            </a>
-        </td>
-        <td>
-            <a href=#!/branches>
-                <dd class="div-option-dd">
-                    <div class="div-option-text">
-                        <br>
-                        <p>Contact us</p>
-                    </div>
-                </dd>
-            </a>
+            <div class="each-top-five" ng-repeat="article in appArticles | orderBy: '-searchCount'">
+                <a href=@hreff ng-click="showme=true;updateArticleCount(article)">
+                    <dl>
+                        <dd class="top-five-dd">
+                            <img ng-src={{article.image}} style="width: 35%; height: 100%; " align="right" />
+                            <div class="five-article-text">
+                                <h3>{{ article.title }}</h3>
+                                <p>{{ article.text }}</p>
+                            </div>
+                        </dd>
+                    </dl>
+                </a>
+            </div>
         </td>
     </tr>
-
 </table>
-

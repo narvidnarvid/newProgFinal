@@ -1,6 +1,22 @@
-html {
-    position: relative;
-    min-height: 100%;
+/*html {*/
+    /*position: relative;*/
+    /*min-height: 100%;*/
+/*}*/
+
+/*.content {*/
+    /*!*margin: auto;*!*/
+    /*!*width: 70%;*!*/
+    /*!*padding: 10px;*!*/
+    /*max-width: 1170px;*/
+/*}*/
+
+
+.page-wrapper{
+    position:relative;
+    margin: auto;
+    width: 70%;
+    padding: 10px;
+    /*max-width: 1170px;*/
 }
 
 #usr-tbl-div {
@@ -12,6 +28,8 @@ html {
     margin: 0px auto;
 
 }
+
+
 
 /*-----------------
  Logo
@@ -165,4 +183,29 @@ footer ul {
 
 footer ul li a {
     display: block;
+}
+
+/****************
+  Articles
+**************/
+.each-top-five{
+    width: 500px;
+    float: right;
+    margin-right: 70px;
+}
+
+.five-article-text{
+    float: right;
+    width: 280px;
+    margin-right: 10px;
+    height: 168px;
+    overflow: hidden;
+    color: darkslateblue;
+}
+
+.top-five-dd{
+    text-align: right;
+    height: 185px;
+    background: linear-gradient(rgba(212, 212, 212, 0.73), rgb(255, 255, 255));
+    -webkit-border-radius: 11px;
 }

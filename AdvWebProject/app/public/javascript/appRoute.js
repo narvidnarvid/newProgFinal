@@ -4,7 +4,7 @@ myApp.config(function($routeProvider) {
     $routeProvider.
     when('/home', {
         templateUrl: "views/home.html",
-        controller : 'userCtrl'
+        controller : 'articleCtrl'
     }).
     when('/login', {
         templateUrl: 'views/login.html',
