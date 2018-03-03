@@ -1,16 +1,9 @@
-<label ng-if="connected">Hello {{ currentUser.firstName }}</label>
-
-
-<label ng-if="!connected">Not connected</label>
-
-
-
 
 <table>
     <tr>
         <td>
-            <div class="each-top-five" ng-repeat="article in appArticles | orderBy: '-searchCount'">
-                <a href=@hreff ng-click="showme=true;updateArticleCount(article)">
+            <div class="each-top-five" ng-repeat="article in appArticles | orderBy: '-searchCount'" >
+                <a href="#!/article" ng-click="updateArticleCount(article);getArticle(article._id)" >
                     <dl>
                         <dd class="top-five-dd">
                             <img ng-src={{article.image}} style="width: 35%; height: 100%; " align="right" />

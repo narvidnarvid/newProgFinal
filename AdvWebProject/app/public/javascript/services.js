@@ -60,6 +60,9 @@
         this.updateArticleCount = function(article){
             return $http.put('/Articles/UpdateArticleCount' , article);
         };
+        this.getArticleByID= function(articleId){
+            return $http.get('/Articles/Article/' + articleId);
+        };
 
     })
 

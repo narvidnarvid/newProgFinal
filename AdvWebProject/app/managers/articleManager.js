@@ -22,6 +22,11 @@ module.exports = {
             callback(null, articles);
         });
     },
+    getArticleByID: function (callback, _id) {
+        Article.findOne({'_id': _id}, function (err, article) {
+            callback(null, article);
+        })
+    },
     updateArticleCount: function (callback, article) {
         Article.findOne({'_id': article._id}, function (err, dbArticle) {
             dbArticle.searchCount++; 
