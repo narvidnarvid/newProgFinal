@@ -17,8 +17,8 @@ myApp.config(function($routeProvider) {
   //  when('/socket', {
   //      templateUrl: 'views/socket.html'
  //   }).
-    when('/articles', {
-        templateUrl: 'views/articles.html',
+    when('/article', {
+        templateUrl: 'views/article.html',
         controller : 'articleCtrl'
     }).
     when('/register', {

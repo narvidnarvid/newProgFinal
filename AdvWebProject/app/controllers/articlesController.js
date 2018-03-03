@@ -15,17 +15,30 @@ module.exports = function (app) {
         });
     });
 
-        // Update article
-        app.put('/Articles/UpdateArticleCount', function (req, res, next) {
-            articleManager.updateArticleCount(function (err, id) {
-                    if (err) {
-                        console.log('updateArticleCount Err: ' + err);
-                        res.next();
-                    } else {
-                        res.json({'id': id})
-                    }
-                },
-                req.body)
-        });
+    // Get Article by Id
+    app.get('/Articles/Article/:articleId', function (req, res, next) {
+        articleManager.getArticleByID(function (err, article) {
+            if (err) {
+                console.log('getArticleByID Err: ' + err);
+                res.next();
+            } else {
+                res.json(article);
+            }
+        },
+            req.params.articleId)
+    });
+
+    // Update article
+    app.put('/Articles/UpdateArticleCount', function (req, res, next) {
+        articleManager.updateArticleCount(function (err, id) {
+                if (err) {
+                    console.log('updateArticleCount Err: ' + err);
+                    res.next();
+                } else {
+                    res.json({'id': id})
+                }
+            },
+            req.body)
+    });
 }
 
