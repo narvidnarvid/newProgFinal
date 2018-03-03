@@ -4,7 +4,7 @@
   "description": "Final project for advanced web application developing",
   "license": "MIT",
   "type": "git",
-  "repository": "https://github.com/shalev67/AdvWebProject",
+  "repository": "https://github.com/narvidnarvid/newProgFinal.git",
   "dependencies": {
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
