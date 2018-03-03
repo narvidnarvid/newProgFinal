@@ -1,8 +1,22 @@
-<div>
-    {{ appArticle.title }}
 
-    {{ appArticle.text }}
-
+<div ng-show="!appArticle">
+    <a href="#!/home">
+        <h5>Back to home page</h5>
+    </a>
 </div>
 
+<section ng-show="appArticle" align="right">
+    <header>
+        <h1 class="article-title">{{ appArticle.title }}</h1>
+    </header>
+
+
+    <dl>
+        <dd>
+            <div style="white-space: pre-line">
+                <p class="article-text" style="font-size:18px; ">{{ appArticle.text }}</p>
+            </div>
+        </dd>
+    </dl>
+</section>
 

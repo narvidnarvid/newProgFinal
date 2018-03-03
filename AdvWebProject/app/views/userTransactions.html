@@ -7,7 +7,29 @@
     <h5>You dont have any transactions....</h5>
 </div>
 <div ng-show="haveTransactionData">
-    </br>
+
+    <canvas class="myCanvas" id="myCanvas" width="850" height="50">
+        Your browser does not support the canvas element.
+    </canvas>
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx=canvas.getContext("2d");
+        ctx.font = "30px Palatino Linotype";
+
+        // Create gradient
+        var grd = ctx.createLinearGradient(0, 500, 1100, 0);
+        grd.addColorStop(0, "MidnightBlue");
+        //grd.addColorStop(1, "DeepSkyBlue");
+        grd.addColorStop(1, "Aqua");
+
+
+        // Fill with gradient
+        ctx.fillStyle = grd;
+        ctx.textAlign = "center";
+        ctx.fillText("Transaction Data", 120, canvas.height / 2);
+    </script>
+    <hr/>
+
         <div class="search-tbl-header">
             <table cellpadding="0" cellspacing="0" border="0" class="search-tbl" >
                 <thead>
@@ -19,8 +41,6 @@
                 </thead>
             </table>
         </div>
-
-        </br>
 
         <div id="usr-tbl-div">
             <table class="table table-hover">

@@ -40,10 +40,6 @@ myApp.config(function($routeProvider) {
         templateUrl: "views/userDetail.html",
         controller : 'userCtrl'
     }).
-    // when('/transactions', {
-    //     templateUrl: "views/transactions.html",
-    //     controller : 'transactionCtrl'
-    // }).
     when('/piechart', {
         templateUrl: "views/piechart.html",
         controller : 'userCtrl'

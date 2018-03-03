@@ -1,4 +1,50 @@
-<div id="status">
+
+<div ng-show="!isAdmin" >
+    <h5>Permissions Error:</h5>
+    <a href="#!/home">
+        <p>Back to home </p>
+    </a>
 </div>
-<input ng-model="messege" />
-<button  ng-click="createPost(messege)">create Post</button>
+
+<div ng-show="isAdmin && connected ">
+    <canvas class="myCanvas" id="myCanvas" width="850" height="50">
+        Your browser does not support the canvas element.
+    </canvas>
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx=canvas.getContext("2d");
+        ctx.font = "30px Palatino Linotype";
+
+        // Create gradient
+        var grd = ctx.createLinearGradient(0, 500, 1100, 0);
+        grd.addColorStop(0, "MidnightBlue");
+        //grd.addColorStop(1, "DeepSkyBlue");
+        grd.addColorStop(1, "Aqua");
+
+
+        // Fill with gradient
+        ctx.fillStyle = grd;
+        ctx.textAlign = "center";
+        ctx.fillText("Facebook", 65, canvas.height / 2);
+    </script>
+    <hr/>
+
+<table>
+    <tr>
+        <div id="status">
+        </div>
+        <textarea class="fb-post" ng-model="messege"  />
+        <br>
+        <button  ng-click="createPost(messege)"  class="btn btn-primary">Add new post</button>
+    </tr>
+    <br><br>
+    <tr>
+        <div class="fb-page"
+             data-tabs="timeline,events,messages"
+             data-href="https://www.facebook.com/Money-adviser-app-195893604336358/"
+             data-width="500"
+             data-hide-cover="false"></div>
+    </tr>
+</table>
+</div>
+
