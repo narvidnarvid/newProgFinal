@@ -1,0 +1,25 @@
+{
+  "name": "AdvWebProject",
+  "version": "0.0.1",
+  "description": "Final project for advanced web application developing",
+  "license": "MIT",
+  "type": "git",
+  "repository": "https://github.com/narvidnarvid/newProgFinal.git",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^3.1.0",
+    "ejs": "~0.7.1",
+    "express": "^4.16.2",
+    "express-jwt": "^5.3.0",
+    "jade": "^1.11.0",
+    "mongoose": "^4.13.6",
+    "morgan": "^1.9.0",
+    "password-hash": "^1.2.2",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.4.5",
+    "serve-static": "^1.13.1",
+    "socket.io": "^2.0.4",
+    "sweetalert2": "^7.13.1"
+  }
+}
