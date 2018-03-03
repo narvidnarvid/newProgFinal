@@ -10,6 +10,12 @@
         // $scope.isAdmin = false;
         // $scope.currentUserId = undefined;
 
+        // Limit the age
+        var today = new Date();
+        var minAge = 18;
+        var maxAge = 120;
+        $scope.minAge = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+        $scope.maxAge = new Date(today.getFullYear() - maxAge, today.getMonth(), today.getDate());
 
         // Register
         $scope.createNewUser = function() {
@@ -72,9 +78,20 @@
             });
         };
 
+        // Logout
+        $scope.logout = function () {
+            $cookieStore.remove('currentUserId');
+            $rootScope.currentUser = {};
+            $scope.currentUserUpdate = {};
+            $rootScope.connected = false;
+            $scope.haveTransactionData = false;
+            $rootScope.isAdmin = false;
+            $scope.currentUserId = undefined;
 
 
-        if ($cookieStore.get('currentUserId') !== undefined){
+        };
+
+        if ($rootScope.connected || $cookieStore.get('currentUserId') !== undefined){
 
             $rootScope.connected = true;
             $scope.currentUserId = $cookieStore.get('currentUserId');
@@ -85,7 +102,7 @@
 
                 // Check if admin
                 if($rootScope.currentUser.role === 'admin') {
-                    $scope.isAdmin = true;
+                    $rootScope.isAdmin = true;
 
                     // Get all users
                     userService.getAllUsers().then(function (data) {
@@ -95,7 +112,7 @@
                     // Delete user
                     $scope.deleteUser = function (id) {
                         // Check if the is admin and not deleting himself
-                        if($scope.isAdmin && ( $scope.currentUserId !== id )){
+                        if($rootScope.isAdmin && ( $scope.currentUserId !== id )){
                             // if (confirm('Are you sure you want delete?')) {
                             //     userService.deleteUser(id).then(function () {
                             //         userService.getAllUsers().then(function(data) {
@@ -147,18 +164,7 @@
                     };
                 }
 
-                // Logout
-                $scope.logout = function () {
-                    $cookieStore.remove('currentUserId');
-                    $rootScope.currentUser = {};
-                    $scope.currentUserUpdate = {};
-                    $rootScope.connected = false;
-                    $scope.haveTransactionData = false;
-                    $scope.isAdmin = false;
-                    $scope.currentUserId = undefined;
 
-
-                };
 
                 // Update user
                 $scope.updateThisUser = function () {
@@ -382,18 +388,24 @@
             };
     })
 
-    myApp.controller("facebookCtrl", function($scope) {
+    myApp.controller("facebookCtrl", function($scope,$rootScope) {
+
+        //Check if admin
+        if($rootScope.currentUser.role === 'admin') {
+            $rootScope.isAdmin = true;
+        }
+
      // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
+    // console.log('statusChangeCallback');
+    // console.log(response);
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       testAPI();
     } else {
-        console.log('error on loggin');
+        // console.log('error on loggin');
     }
   }
 
@@ -420,35 +432,47 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  $scope.createPost= function(req, response) {   
-    FB.api(
-    "/195893604336358/feed",
-    "POST",
-    {
-        "message":req,
-        "access_token": "EAADZBfxRcEZB8BABMtESaN5N5GqJ98GLkZACrrsJGXsbHSjg4rElwzBw3rSBpaX4MlUF9KeGKgjKze1TguthJZB1Am5S2LNfdiKTZBwVE0kF90zRfBUip5ULGhb4Nxk4IPZCCU4b8U6PwB3vKUOaZBymO2kGkkyoyPsOealZCZAtIH9n259my5YmLIw2bzG2IOkbZCrtJDbqvILQZDZD",
-    },
-    function (response) {
-      if (response && !response.error) {
-        /* handle the result */
-      }
-      console.log(response);
-    }
-);
+  $scope.createPost= function(req, response) {
+      FB.api(
+          "/195893604336358/feed",
+          "POST",
+          {
+              "message": req,
+              "access_token": "EAADZBfxRcEZB8BAH3GtySk28BT9RZAZBmzUqp6sBGNZCo2Q2ZAJ1zgYb6u6uKNMaJvmFrHoTyJZCwIsLWBMaQZB9NAiwwhaAZA3eTx59eTBERN3D3xEcG2QAWysD9YtZABBHHYcmO6jlR6sjqXKbeqRcTM7ChbtMoGZCG00mWF2JqQqRZAEYOZCk5eGHkbPEksxgpgtkZD",
+          },
+          function (response) {
+              if (response && !response.error) {
+                  /* handle the result */
+              }
+              swal({
+                  title: 'Posted Successfully!',
+                  text: "The post has been uploded.",
+                  type: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'OK'
+              }).then(function(result) {
+                  window.location.reload();
+            })
+          }
+      );
+
   }
 
-  /*$scope.getPosts= function(){
-  FB.api('/195893604336358/posts', function(response) {
-  console.log(response);
-  $scope.facebookPosts = response;
-});
-  }*/
+
+
+//   $scope.getPosts= function(){
+//   FB.api('/195893604336358/posts', function(response) {
+//   console.log(response);
+//   $scope.facebookPosts = response;
+// });
+//   }
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
+      // console.log('Successful login for: ' + response.name);
     });
   }
 })

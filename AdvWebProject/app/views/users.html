@@ -7,8 +7,26 @@
 </div>
 
 <div ng-show="isAdmin">
-    Users Manager
+    <canvas class="myCanvas" id="myCanvas" width="850" height="50">
+        Your browser does not support the canvas element.
+    </canvas>
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx=canvas.getContext("2d");
+        ctx.font = "30px Palatino Linotype";
 
+        // Create gradient
+        var grd = ctx.createLinearGradient(0, 500, 1100, 0);
+        grd.addColorStop(0, "MidnightBlue");
+        //grd.addColorStop(1, "DeepSkyBlue");
+        grd.addColorStop(1, "Aqua");
+
+
+        // Fill with gradient
+        ctx.fillStyle = grd;
+        ctx.textAlign = "center";
+        ctx.fillText("Users Manager", 100, canvas.height / 2);
+    </script>
     <hr/>
 
     <div class="search-tbl-header">
@@ -39,7 +57,7 @@
                     </th>
 
                     <th class="search-tbl-th">
-                        <button type="submit"   class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn search-btn">Search</button>
                     </th>
                 </tr>
                 </thead>

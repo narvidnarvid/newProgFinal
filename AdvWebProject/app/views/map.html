@@ -16,72 +16,86 @@
     // Fill with gradient
     ctx.fillStyle = grd;
     ctx.textAlign = "center";
-    ctx.fillText("Contact", 80, canvas.height / 2);
+    ctx.fillText("Contact us", 80, canvas.height / 2);
 </script>
 <hr/>
 
+<section>
+<div id="map" style="height : 1000px; width : 500px;"></div>
+</section>
+<section>
+<div style="max-width: 70%;">
+    <!--Search-->
+    <div class="search-tbl-header">
+        <form name="form" ng-submit="searchBranches()"  role="form" method="POST">
+            <table cellpadding="0" cellspacing="0" border="0" class="search-tbl">
+                <thead>
+                <tr>
 
-<div class="search-tbl-header">
-    <form name="form" ng-submit="searchBranches()"  role="form" method="POST">
-        <table cellpadding="0" cellspacing="0" border="0" class="search-tbl">
-            <thead>
+                    <th class="search-tbl-th">
+                        <input type="text" name="city" id="city" placeholder="City" class="form-control" ng-model="branchCtrl.searchBranches.city" />
+                    </th>
+
+                    <th class="search-tbl-th">
+                        <input type="text" name="description" id="description" placeholder="Address" class="form-control" ng-model="branchCtrl.searchBranches.description" />
+                    </th>
+
+                    <th class="search-tbl-th">
+                        <input type="text" name="phone" id="phone" placeholder="Phone" class="form-control" ng-model="branchCtrl.searchBranches.phone" />
+                    </th>
+
+                    <th class="search-tbl-th">
+                        <button type="submit"   class="btn search-btn">Search</button>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </form>
+    </div>
+
+    <br>
+    <!--Table-->
+    <div id="usr-tbl-div">
+        <table class="table table-hover">
+            <thead class="thead-default">
             <tr>
-
-                <th class="search-tbl-th">
-                    <input type="text" name="city" id="city" placeholder="City" class="form-control" ng-model="branchCtrl.searchBranches.city" />
+                <th>
+                    City
+                </th>
+                <th>
+                    Address
                 </th>
 
-                <th class="search-tbl-th">
-                    <input type="text" name="description" id="description" placeholder="Address" class="form-control" ng-model="branchCtrl.searchBranches.description" />
-                </th>
-
-                <th class="search-tbl-th">
-                    <input type="text" name="phone" id="phone" placeholder="Phone" class="form-control" ng-model="branchCtrl.searchBranches.phone" />
-                </th>
-
-                <th class="search-tbl-th">
-                    <button type="submit"   class="btn btn-primary">Search</button>
+                <th>
+                    Phone
                 </th>
             </tr>
             </thead>
+            <tbody>
+            <tr ng-repeat="branche in appBranches.data | orderBy : 'City' " id="branches">
+                <td>{{ branche.City}}</td>
+                <td>{{ branche.Description }}</td>
+                <td>{{ branche.Phone }}</td>
+            </tr>
+            </tbody>
         </table>
-    </form>
+    </div>
 </div>
 
-<br>
+</section>
 
-<div id="usr-tbl-div">
-    <table class="table table-hover">
-        <thead class="thead-default">
-        <tr>
-            <th>
-                City
-            </th>
-            <th>
-                Address
-            </th>
+<aside>
 
-            <th>
-                Phone
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="branche in appBranches.data | orderBy : 'City' " id="branches">
-            <td>{{ branche.City}}</td>
-            <td>{{ branche.Description }}</td>
-            <td>{{ branche.Phone }}</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <section>
+        <video width="320" height="240" controls>
+            <source src="./videos/IBecameABank.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
 
-<br><hr><br>
+</aside>
 
-<div id="map" style="height : 1000px; width : 500px;"></div>
-
-
-
+<!-- Map staff-->
 <script>
     function initMap() {
         var data = $.getJSON("Branches/GetAll", function(error, data)  {
@@ -138,8 +152,6 @@
             });
     }
 </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzEyJ0k3REy7R0YD5x6ag3o1epGPn8UK4&callback=initMap">
-    </script>
-
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-uC4ZYBkmTnpc6Asz4zoXtPO5vGRiyIM&callback=initMap">
+</script>
 
