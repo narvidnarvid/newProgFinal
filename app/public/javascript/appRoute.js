@@ -14,9 +14,6 @@ myApp.config(function($routeProvider) {
         templateUrl: 'views/facebook.html',
         controller : 'facebookCtrl'
     }).
-  //  when('/socket', {
-  //      templateUrl: 'views/socket.html'
- //   }).
     when('/article', {
         templateUrl: 'views/article.html',
         controller : 'articleCtrl'

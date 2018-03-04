@@ -31,13 +31,22 @@ var myServer= server.listen(port, '0.0.0.0');
 server.on('error', onError);
 server.on('listening', onListening);
 var io = require('socket.io').listen(myServer);
+var count=0;
+
+io.sockets.on('connection', function (socket) {
+    count++;
+    console.log('user connected');
+    socket.emit('counter', {count:count});
+    socket.on('disconnect', function() {
+        count--;
+        console.log('user disconnected');
+        socket.emit('counter', {count:count});
+    });
+})
+
 /**
  * Normalize a port into a number, string, or false.
  */
-
-io.on('connection', function(socket){
-    console.log('a user connected');
-  });
 
 function normalizePort(val) {
     var port = parseInt(val, 10);

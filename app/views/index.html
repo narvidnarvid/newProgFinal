@@ -25,6 +25,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDzEyJ0k3REy7R0YD5x6ag3o1epGPn8UK4"></script>
 
     <!--Graph-->
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -34,7 +35,7 @@
 <body ng-app="myeApp" ng-controller="userCtrl">
 <header>
     <h1 id="fh5co-logo"><a href="http://localhost:5000/#!/home"><img src="./images/logo.png" class="logo"></a></h1>
-
+    <h1>מספר הצופים הוא: {{socketCount}}</h1>
     <nav class="navbar navbar-toggleable navbar-inverse bg-inverse ff-text">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

@@ -2,7 +2,29 @@
     "use strict";
     var myApp = angular.module("myApp");
 
-
+    myApp.factory('socket', function ($rootScope) {
+        var socket = io.connect('http://localhost:5000');
+        return {
+            on: function (eventName, callback) {
+                socket.on(eventName, function () {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        callback.apply(socket, args);
+                    });
+                });
+            },
+            emit: function (eventName, data, callback) {
+                socket.emit(eventName, data, function () {
+                    var args = arguments;
+                    $rootScope.$apply(function () {
+                        if (callback) {
+                            callback.apply(socket, args);
+                        }
+                    });
+                })
+            }
+        };
+    });
 
     myApp.service('userService', function($http){
         this.getAllUsers = function(){
@@ -78,5 +100,5 @@
 
 
 
-   // angular.module('myApp').service('userService', ['$http', userService]);
+    // angular.module('myApp').service('userService', ['$http', userService]);
 })();

@@ -1,6 +1,6 @@
 (function(){
     "use strict";
-    myApp.controller("userCtrl",['$scope', '$rootScope','$http', 'userService','$location', '$cookieStore','$window' , function($scope, $rootScope,$http,userService,$location, $cookieStore, $window) {
+    myApp.controller("userCtrl",['$scope','socket', '$rootScope','$http', 'userService','$location', '$cookieStore','$window' , function($scope,socket ,$rootScope,$http,userService,$location, $cookieStore, $window) {
         var self = this;
 
         $rootScope.connected = false;
@@ -16,6 +16,11 @@
         var maxAge = 120;
         $scope.minAge = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
         $scope.maxAge = new Date(today.getFullYear() - maxAge, today.getMonth(), today.getDate());
+
+        //Get number online's pepole
+        socket.on('counter', function (data) {
+            $scope.socketCount = data.count;
+        })
 
         // Register
         $scope.createNewUser = function() {
@@ -191,7 +196,7 @@
                      * Bar Chart
                      * ******************/
 
-                    // set the dimensions and margins of the graph
+                        // set the dimensions and margins of the graph
                     var margin = {top: 20, right: 20, bottom: 30, left: 40},
                         width = 960 - margin.left - margin.right,
                         height = 500 - margin.top - margin.bottom;
@@ -360,6 +365,74 @@
             });
         };
 
+        $scope.loadScript = function() {
+            if(google == undefined) {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'http://maps.googleapis.com/maps/api/js?key=AIzaSyDzEyJ0k3REy7R0YD5x6ag3o1epGPn8UK4&callback=initMap';
+                document.body.appendChild(script);
+                setTimeout(function () {
+                    $scope.init();
+                }, 500);
+            }
+            else {
+                google.maps.event.addDomListener(window, 'load', $scope.initMap());
+            }
+        }
+        $scope.initMap= function()  {
+            var data = $.getJSON("Branches/GetAll", function(error, data)  {
+            })
+
+                .done(function () {
+                    var locations = [];
+                    for (var i = 0; i < data.responseJSON.length; i++){
+                        locations.push({
+                            "lat": data.responseJSON[i].Lattitude,
+                            "lng": data.responseJSON[i].Longtidute,
+                            "name": data.responseJSON[i].City,
+                            "zoom": data.responseJSON[i].Zoom,
+                            "description": data.responseJSON[i].Description
+                        })
+                    }
+                    var center = {
+                        "lat": locations[0].lat,
+                        "lng": locations[0].lng
+                    }
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 8,
+                        center: center
+                    });
+                    for (i = 0; i < locations.length; i++){
+                        var contentString = locations[i].description;
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        var marker = new google.maps.Marker({
+                            position: locations[i],
+                            map: map,
+                            title: locations[i].name
+                        });
+                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                            return function () {
+                                infowindow.setContent(locations[i].description);
+                                infowindow.open(map, marker);
+                                var center = {
+                                    "lat": locations[i].lat,
+                                    "lng": locations[i].lng
+                                }
+                                var zoom = locations[i].zoom;
+                                map.setCenter(center)
+                                map.setZoom(zoom)
+                            }
+                        })(marker, i));
+                    }
+                })
+                .fail(function () {
+                    console.log("There was a problem loading the beaches locations");
+                })
+                .always(function () {
+                });
+        }
     })
 
     myApp.controller("articleCtrl", function($scope, $rootScope,$location ,articleService) {
@@ -372,20 +445,20 @@
             articleService.getArticleByID(id).then(function (data) {
                 $rootScope.appArticle = data.data;
                 $location.path('/article');
-                })
+            })
 
             // console.log($scope.appArticle.title);
         };
 
 
         // Update article
-         $scope.updateArticleCount = function (currentArticle) {
-                articleService.updateArticleCount(currentArticle).then(function(data,err){
-                    if(err){
-                        console.log(err);
-                    }
-                })
-            };
+        $scope.updateArticleCount = function (currentArticle) {
+            articleService.updateArticleCount(currentArticle).then(function(data,err){
+                if(err){
+                    console.log(err);
+                }
+            })
+        };
     })
 
     myApp.controller("facebookCtrl", function($scope,$rootScope) {
@@ -395,69 +468,69 @@
             $rootScope.isAdmin = true;
         }
 
-     // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    // console.log('statusChangeCallback');
-    // console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      testAPI();
-    } else {
-        // console.log('error on loggin');
-    }
-  }
+        // This is called with the results from from FB.getLoginStatus().
+        function statusChangeCallback(response) {
+            // console.log('statusChangeCallback');
+            // console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            if (response.status === 'connected') {
+                // Logged into your app and Facebook.
+                testAPI();
+            } else {
+                // console.log('error on loggin');
+            }
+        }
 
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : 279821755880431,
-      cookie     : true,  // enable cookies to allow the server to access 
-                          // the session
-      xfbml      : true,  // parse social plugins on this page
-      version    : 'v2.8' // use graph api version 2.8
-    });
-    
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  };
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : 279821755880431,
+                cookie     : true,  // enable cookies to allow the server to access
+                                    // the session
+                xfbml      : true,  // parse social plugins on this page
+                version    : 'v2.8' // use graph api version 2.8
+            });
 
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        };
 
-  $scope.createPost= function(req, response) {
-      FB.api(
-          "/195893604336358/feed",
-          "POST",
-          {
-              "message": req,
-              "access_token": "EAADZBfxRcEZB8BAH3GtySk28BT9RZAZBmzUqp6sBGNZCo2Q2ZAJ1zgYb6u6uKNMaJvmFrHoTyJZCwIsLWBMaQZB9NAiwwhaAZA3eTx59eTBERN3D3xEcG2QAWysD9YtZABBHHYcmO6jlR6sjqXKbeqRcTM7ChbtMoGZCG00mWF2JqQqRZAEYOZCk5eGHkbPEksxgpgtkZD",
-          },
-          function (response) {
-              if (response && !response.error) {
-                  /* handle the result */
-              }
-              swal({
-                  title: 'Posted Successfully!',
-                  text: "The post has been uploded.",
-                  type: 'success',
-                  showCancelButton: false,
-                  confirmButtonColor: '#3085d6',
-                  confirmButtonText: 'OK'
-              }).then(function(result) {
-                  window.location.reload();
-            })
-          }
-      );
+        // Load the SDK asynchronously
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
 
-  }
+        $scope.createPost= function(req, response) {
+            FB.api(
+                "/195893604336358/feed",
+                "POST",
+                {
+                    "message": req,
+                    "access_token": "EAADZBfxRcEZB8BAH3GtySk28BT9RZAZBmzUqp6sBGNZCo2Q2ZAJ1zgYb6u6uKNMaJvmFrHoTyJZCwIsLWBMaQZB9NAiwwhaAZA3eTx59eTBERN3D3xEcG2QAWysD9YtZABBHHYcmO6jlR6sjqXKbeqRcTM7ChbtMoGZCG00mWF2JqQqRZAEYOZCk5eGHkbPEksxgpgtkZD",
+                },
+                function (response) {
+                    if (response && !response.error) {
+                        /* handle the result */
+                    }
+                    swal({
+                        title: 'Posted Successfully!',
+                        text: "The post has been uploded.",
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    }).then(function(result) {
+                        window.location.reload();
+                    })
+                }
+            );
+
+        }
 
 
 
@@ -468,14 +541,14 @@
 // });
 //   }
 
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    FB.api('/me', function(response) {
-      // console.log('Successful login for: ' + response.name);
-    });
-  }
-})
+        // Here we run a very simple test of the Graph API after login is
+        // successful.  See statusChangeCallback() for when this call is made.
+        function testAPI() {
+            FB.api('/me', function(response) {
+                // console.log('Successful login for: ' + response.name);
+            });
+        }
+    })
 
 
     //angular.module('app').controller('userCtrl', ['$scope', 'userService', userCtrl])
