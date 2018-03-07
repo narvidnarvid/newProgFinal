@@ -1,7 +1,9 @@
+
 (function(){
     "use strict";
     myApp.controller("userCtrl",['$scope','socket', '$rootScope','$http', 'userService','$location', '$cookieStore','$window' , function($scope,socket ,$rootScope,$http,userService,$location, $cookieStore, $window) {
         var self = this;
+
 
         $rootScope.connected = false;
         // $rootScope.currentUser = {};
@@ -25,30 +27,58 @@
         // Register
         $scope.createNewUser = function() {
             this.userCtrl.user.role = "user";
-            userService.createUser(this.userCtrl.user).then(function(data,err) {
-                if(err){
-                    console.log(err);
-                }else{
-                    $rootScope.connected = true;
-                    // Get the user data
-                    userService.getUserByID(data.data.user._id).then(function(user,err) {
-                        $rootScope.currentUser = user.data;
 
-                        var expireDate = new Date();
-                        expireDate.setDate(expireDate.getDate() + 1);
+            var emptyFieldAlert = false;
 
-                        // Save the user
-                        $cookieStore.put('currentUserId',user.data._id,{
-                            expires: expireDate
+            // Check gender
+            if(this.userCtrl.user.gender === undefined){
+                emptyFieldAlert = true;
+                swal('Error', 'Gender is required','error');
+            }
+
+            // Check marital status
+            if(this.userCtrl.user.maritalStatus === undefined){
+                emptyFieldAlert = true;
+                swal('Error', 'Marital status is required','error');
+            }
+
+            // Check livig zone
+            if(this.userCtrl.user.zone === undefined){
+                emptyFieldAlert = true;
+                swal('Error', 'Living zone is required','error');
+            }
+
+
+            // Create User if all field are ok
+            if(!emptyFieldAlert) {
+                userService.createUser(this.userCtrl.user).then(function(data,err) {
+                    if(err){
+                        console.log(err);
+                    }else{
+                        $rootScope.connected = true;
+                        // Get the user data
+                        userService.getUserByID(data.data.user._id).then(function(user,err) {
+                            $rootScope.currentUser = user.data;
+
+                            var expireDate = new Date();
+                            expireDate.setDate(expireDate.getDate() + 1);
+
+                            // Save the user
+                            $cookieStore.put('currentUserId',user.data._id,{
+                                expires: expireDate
+                            });
+                            // $cookieStore.put('currentUserId',user.data._id,{
+                            //     expires: expireDate
+                            // });
+
+                            $location.path('/home');
                         });
-                        // $cookieStore.put('currentUserId',user.data._id,{
-                        //     expires: expireDate
-                        // });
+                    }
+                });
+            }
 
-                        $location.path('/home');
-                    });
-                }
-            });
+
+
         };
 
         // Login

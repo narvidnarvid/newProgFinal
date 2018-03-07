@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <label >Gender</label>
-            <select  class="form-control" name="gender" ng-model="userCtrl.user.gender" ng-options="opt for opt in ['Male','Female']" required>
+            <select  class="form-control" name="gender" ng-model="userCtrl.user.gender" required>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
             </select>
@@ -79,8 +79,8 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Create</button>
-            <!--<button type="submit" class="btn btn-primary">Create</button>-->
+            <!--<button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Create</button>-->
+            <button type="submit" class="btn btn-primary">Create</button>
             <a href="#!/home" class="btn btn-link">Cancel</a>
         </div>
     </form>

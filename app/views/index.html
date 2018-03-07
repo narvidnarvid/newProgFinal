@@ -30,12 +30,39 @@
     <!--Graph-->
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
+    <!--Font Awesome Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <!--<body ng-controller="userCtrl" ng-view>-->
 <body ng-app="myeApp" ng-controller="userCtrl">
 <header>
-    <h1 id="fh5co-logo"><a href="http://localhost:5000/#!/home"><img src="./images/logo.png" class="logo"></a></h1>
-    <h1>מספר הצופים הוא: {{socketCount}}</h1>
+
+    <table class="hdr-tbl">
+        <tr>
+            <td>
+                <!--Logo-->
+                <h1 class="logo">
+                    <a href="#!/home">
+                        <img src="./images/logo.png" class="logo">
+                    </a>
+                </h1>
+            </td>
+            <td class="wrapper">
+                <!--Counter-->
+                <div class="counter col_fourth">
+                    <i class="fa fa-users fa-2x"></i>
+                    <h2 class="count-title count-number">{{socketCount}}</h2>
+                    <p class="count-text ">Online Visitors</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+
+    <!--nav bar-->
     <nav class="navbar navbar-toggleable navbar-inverse bg-inverse ff-text">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -92,8 +119,8 @@
         <section id="about">
             <h3>About</h3>
             <p>
-                In this website you can find articles about surfing and surfers.
-                Also Information of the top surfers beaches
+                In this website you can find articles about saving money.
+                Also statistics about your transactions.
             </p>
         </section>
         <section id="Creators">

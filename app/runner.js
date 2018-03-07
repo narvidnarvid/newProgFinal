@@ -122,12 +122,10 @@ function populateDb() {
     users.forEach(function (user, index) {
         userManager.createUser(function (err, newUser) {
                 console.log('Created user: ' + user.email);
-                if(user.email == 'user@user.com' ){
-                    transactions.forEach(function (transaction, tindex) {
-                        userManager.addTransaction(function (err, user){
-                        }, newUser, transaction)
-                    });
-                }
+                transactions.forEach(function (transaction, tindex) {
+                    userManager.addTransaction(function (err, user) {
+                    }, newUser, transaction)
+                });
             },
             user);
     });
