@@ -27,10 +27,10 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-var myServer= server.listen(port, '0.0.0.0');
+server.listen(port, '0.0.0.0');
 server.on('error', onError);
 server.on('listening', onListening);
-var io = require('socket.io').listen(myServer);
+var io = require('socket.io').listen(server);
 var count=0;
 
 io.sockets.on('connection', function (socket) {

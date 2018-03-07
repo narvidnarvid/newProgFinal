@@ -2,8 +2,9 @@
     "use strict";
     var myApp = angular.module("myApp");
 
+
     myApp.factory('socket', function ($rootScope) {
-        var socket = io.connect('http://localhost:5000');
+        var socket = io.connect();
         return {
             on: function (eventName, callback) {
                 socket.on(eventName, function () {
