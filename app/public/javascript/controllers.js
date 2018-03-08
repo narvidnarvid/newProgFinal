@@ -401,7 +401,7 @@
 
         $scope.searchBranches = function () {
             branchService.searchBranches(this.branchCtrl.searchBranches).then(function (data) {
-                console.log(data);
+                // console.log(data);
                 $scope.appBranches = data;
             });
         };
