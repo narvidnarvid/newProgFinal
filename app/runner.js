@@ -36,10 +36,12 @@ var count=0;
 io.sockets.on('connection', function (socket) {
     count++;
     console.log('user connected');
+    socket.emit('counter', {count:count});
     socket.broadcast.emit('counter', {count:count});
     socket.on('disconnect', function() {
         count--;
         console.log('user disconnected');
+        socket.emit('counter', {count:count});
         socket.broadcast.emit('counter', {count:count});
     });
 });
