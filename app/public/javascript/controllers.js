@@ -49,6 +49,18 @@
                 }
 
 
+                userService.getUserByEmail(this.userCtrl.user.email).then(function (user, err) {
+                    // console.log(user.data);
+
+                    // Check email
+                    if (user.data) {
+                        emptyFieldAlert = true;
+                        swal('Error', 'This email is exist', 'error');
+                    }
+
+                });
+
+
                 // Create User if all field are ok
                 if (!emptyFieldAlert) {
                     userService.createUser(this.userCtrl.user).then(function (data, err) {
