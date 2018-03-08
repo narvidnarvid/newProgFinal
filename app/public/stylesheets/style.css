@@ -61,6 +61,7 @@
     0 9px 10px rgba(0,0,0,.15),
     0 30px 10px rgba(0,0,0,.18),
     0 15px 10px rgba(0,0,0,.21);
+    direction: rtl;
 }
 
 .article-text{
